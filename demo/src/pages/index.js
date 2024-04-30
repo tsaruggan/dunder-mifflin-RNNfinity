@@ -29,7 +29,6 @@ class App extends React.Component {
     this.setState({ script: script.script, loading: false });
   };
 
-
   render() {
     return (
       <>
@@ -38,6 +37,7 @@ class App extends React.Component {
           <meta name="description" content="A recurrent neural network that generates scripts for The Office" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="icon" href="/favicon.ico" />
+
         </Head>
         <div className="App">
           <Header />
