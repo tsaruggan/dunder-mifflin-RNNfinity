@@ -15,7 +15,8 @@
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
-    "build": "react-scripts --openssl-legacy-provider build"
+    "build": "react-scripts --openssl-legacy-provider build",
+    "postbuild": "cp -r build ../backend/build"
   },
   "eslintConfig": {
     "extends": [
