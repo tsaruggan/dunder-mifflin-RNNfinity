@@ -36,7 +36,7 @@ class App extends React.Component {
         <Header />
         <Options callGenerate={this.generate} loading = {this.state.loading} />
         {
-          this.state.script.length != 0 && <Script script={this.state.script} />
+          this.state.script.length !== 0 && <Script script={this.state.script} />
         }
       </div>
     );
