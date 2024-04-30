@@ -9,9 +9,7 @@ const IDX2CHAR = tf.tensor1d(VOCAB).arraySync();
 // Global variable to hold the model
 let model = null;
 
-const modelBaseUrl = process.env.MODEL_BASE_URL || 'http://localhost:3000'; // Default to localhost in development
-const modelPath = '/model/model.json'; // Relative path within the public folder
-const modelURL = `${modelBaseUrl}${modelPath}`; // Construct the absolute URL
+let modelURL = "/model/model.json";
 
 // Function to load the model if it's not already loaded
 async function loadModel() {
