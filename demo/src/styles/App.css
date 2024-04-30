@@ -104,3 +104,35 @@
     display: inline;
     margin-left: 15px;
   }
+
+/* Media query for phone screens */
+@media (max-width: 600px) {
+  .App {
+    margin: 5px; /* Further reduced margin for very small screens */
+    align-items: center;
+    padding: 10px; /* Smaller padding for phone-friendly design */
+  }
+
+  .options,
+  .script {
+    
+    width: 90%;
+  }
+
+  #generate-button {
+    width: 90px; /* Smaller button size for compact layout */
+  }
+
+  #loadingp{
+    display: block;
+    margin-left: 0px;
+  }
+
+  #title {
+    font-size: 18px; /* Reduced font size for phone screens */
+  }
+
+  #description {
+    font-size: 12px; /* Reduced font size for phone screens */
+  }
+}
