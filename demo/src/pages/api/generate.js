@@ -9,7 +9,9 @@ const IDX2CHAR = tf.tensor1d(VOCAB).arraySync();
 // Global variable to hold the model
 let model = null;
 
-let modelURL = "/model/model.json";
+const modelBaseUrl = 'https://dunder-mifflin-rnnfinity.vercel.app';
+const modelPath = '/model/model.json'; // Path to model within 'public'
+const modelURL = `${modelBaseUrl}${modelPath}`; // Construct the full URL
 
 // Function to load the model if it's not already loaded
 async function loadModel() {
