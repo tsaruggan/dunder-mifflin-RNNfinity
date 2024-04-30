@@ -9,11 +9,14 @@ const IDX2CHAR = tf.tensor1d(VOCAB).arraySync();
 // Global variable to hold the model
 let model = null;
 
+// let modelURL = 'file://src/model/model.json';
+let modelURL = "https://uwlgvovr0axond7s.public.blob.vercel-storage.com/model.json";
+
 // Function to load the model if it's not already loaded
 async function loadModel() {
   if (!model) {
     // Load the model only if it's not already loaded
-    model = await tf.loadLayersModel('file://src/model/model.json');
+    model = await tf.loadLayersModel(modelURL);
   }
   return model;
 }
