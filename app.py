@@ -7,7 +7,6 @@ vocab = ['\t', '\n', ' ', '!', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',',
 char2idx = {char: i for i, char in enumerate(vocab)}
 idx2char = {i: char for i, char in enumerate(vocab)}
 
-
 characters = ["A.J", "ANDY", "ANDY'S FATHER", "ANDY'S MOTHER", "ANGELA", "ASIAN JIM", "ASTRID", "AUNT SHIRLEY", "BARTENDER", "BEN FRANKLIN", "BOB VANCE, VANCE REFRIGERATION", "BRANDON", "BRENDA", "BRIAN", "BROCCOLI ROB", "CPR TRAINER", "CAPTAIN JACK", "CARLA FERN", "CAROL", "CASEY DEAN", "CATHY", "CECE", "CHARLES MINER", "CHEF", "CHILD", "CHRISTIAN", "CHURCHGOER", "CINDY", "CLARK", "CLEANING LADY", "CLIENT", "COMPUTER", "COMPUTRON", "CONCIERGE MARIE", "COOKIE MONSTER", "CORPORATE", "CREED", "CREW", "DANNY CORDRAY", "DARRYL", "DARRYL'S SISTER", "DAVID BRENT", "DAVID WALLACE", "DEANGELO VICKERS", "DELIVERY MAN", "DEVON", "DOCTOR", "DONNA", "DRIVER", "DWIGHT", "DWIGHT'S BABYSITTER", "ED TRUCK", "EMPLOYEE", "ERIN", "ESTHER", "FAKE STANLEY", "FLIGHT ATTENDANT", "GABE", "GIL", "GLENN", "HANK", "HANNAH", "HIDE", "HOLLY", "HUNTER", "IT GUY", "INTERN", "IRENE", "ISABELLE", "JAN", "JESSICA", "JIM", "JIM'S BROTHER", "JIM'S FATHER", "JO BENNETT", "JOSH", "KAREN", "KATY", "KELLY", "KELLY'S FATHER", "KELLY'S MOTHER", "KEVIN", "LAWYER", "LONNY", "LUKE", "LYNN", "MADGE", "MAGICIAN", "MARTIN", "MATT", "MEREDITH", "MICHAEL", "MOSE", "MR. BROWN", "MR. FIGARO", "MR. O'MALLEY", "MR. RAMISH", "MR. ROMANKO", "MR. RUGER", "MR. SCHOFIELD", "MRS. DAVIS", "MRS. WALLACE", "NANA", "NATE", "NELLIE", "NURSE", "OSCAR", "PACKER", "PAM", "PAM'S FATHER", "PAM'S GRANDMOTHER", "PAM'S MOTHER", "PHILLIP", "PHYLLIS", "POLICE OFFICER", "PRINCE FAMILY PAPER", "RAVI", "REPORTER", "ROBERT CALIFORNIA", "ROLF", "ROY", "RYAN", "SALESMAN", "SCRANTON STRANGLER", "SECRETARY", "SECURITY", "SENATOR LIPTON", "SPEAKERPHONE", "STANLEY", "STRIPPER", "STUDENT", "TEACHER", "TOBY", "TROY", "VAL", "VIKRAM", "W.B. JONES", "WAITRESS", "WOLF", "ZEKE"]
 
 # Load the model
@@ -15,33 +14,12 @@ def load_model(model_path):
     model = tf.keras.models.load_model(model_path)
     return model
 
-# Generate text
-def generate_text(model, prompt, length):
-    input_eval = [char2idx[s] for s in prompt]
-    input_eval = tf.expand_dims(input_eval, 0)
-
-    text_generated = []
-    temperature = 1.0
-
-    model.reset_states()
-    for i in range(length):
-        predictions = model(input_eval)
-        predictions = tf.squeeze(predictions, 0)
-
-        predictions = predictions / temperature
-        predicted_id = tf.random.categorical(predictions, num_samples=1)[-1, 0].numpy()
-
-        input_eval = tf.expand_dims([predicted_id], 0)
-        text_generated.append(idx2char[predicted_id])
-
-    return prompt + ''.join(text_generated)
-
 # Helper functions
 def string2index(input_string):
-    return [char2idx[char] for char in input_string]
+    return [char2idx[char] for char in input_string if char in char2idx]
 
 def index2string(input_indices):
-    return ''.join([idx2char[index] for index in input_indices])
+    return ''.join([idx2char[index] for index in input_indices if index in idx2char])
 
 # Generate script based on options
 def generate_script(model, options):
@@ -84,22 +62,30 @@ def format_script(text):
     script = [[lines[i * 3], lines[i * 3 + 1]] for i in range(count)]
     return script
 
-# Example usage
-if __name__ == "__main__":
-    model_path = './model.h5'  # Specify your model path here
-    prompt = "The quick brown fox"
-    length = 100  # Specify the length of text you want to generate
-
-    model = load_model(model_path)
-    generated_text = generate_text(model, prompt, length)
-    print(generated_text)
-
-    # Example of generating a script
+# Gradio interface
+def gradio_generate_script(model_type, num_lines, prompts):
+    model = load_model('./model.h5')  # Update this path
     options = {
-        "type": "prompt",
-        "num": 10,
-        "prompts": [{"character": "Michael", "line": "I am the boss."}]
+        "type": model_type,
+        "num": num_lines,
+        "prompts": prompts
     }
     script = generate_script(model, options)
     formatted_script = format_script(script)
-    print(formatted_script)
+    return formatted_script
+
+# Gradio UI
+iface = gr.Interface(
+    fn=gradio_generate_script,
+    inputs=[
+        gr.Dropdown(["random", "prompt"], label="Type"),
+        gr.Number(value=3, label="Number of Lines"),
+        gr.JSON(label="Prompts (for 'prompt' type)")
+    ],
+    outputs=gr.JSON(label="Formatted Script"),
+    title="Script Generator",
+    description="Generate a script based on character prompts or random selections."
+)
+
+if __name__ == "__main__":
+    iface.launch()
