@@ -1,6 +1,8 @@
 import gradio as gr
 import tensorflow as tf
 import numpy as np
+import json
+import math
 
 # Vocabulary and mappings
 vocab = ['\t', '\n', ' ', '!', '#', '$', '%', '&', "'", '(', ')', '*', '+', ',', '-', '.', '/', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', ':', ';', '=', '?', '@', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', '[', ']', '_', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '{', '}']
@@ -15,10 +17,10 @@ def load_model(model_path):
 
 # Helper functions
 def string2index(input_string):
-    return [char2idx[char] for char in input_string]
+    return [char2idx[char] for char in input_string if char in char2idx]
 
 def index2string(input_indices):
-    return ''.join([idx2char[index] for index in input_indices])
+    return ''.join([idx2char[index] for index in input_indices if index in idx2char])
 
 # Generate script based on options
 def generate_script(model, options):
@@ -50,7 +52,8 @@ def generate_script(model, options):
 
         input_eval = tf.expand_dims([predicted_id], 0)
         text_generated.append(idx2char[predicted_id])
-        line_count = (text_generated.count('\n') + 1) // 3
+        line_count = math.floor((text_generated.count('\n') + 1) // 3)
+
 
     text_generated = ''.join(text_generated)
     return start_string + text_generated
@@ -61,22 +64,43 @@ def format_script(text):
     script = [[lines[i * 3], lines[i * 3 + 1]] for i in range(count)]
     return script
 
-# Example usage
-if __name__ == "__main__":
-    model_path = './model.h5'  # Specify your model path here
-    prompt = "The quick brown fox"
-    length = 100  # Specify the length of text you want to generate
+def gradio_generate_script(type, num_lines, prompts):
+    # Parse JSON string if type is 'prompt'
+    if type == "prompt" and prompts:
+        try:
+            prompts_list = json.loads(prompts)
+        except json.JSONDecodeError:
+            return {"error": "Invalid JSON format"}
+    else:
+        prompts_list = []
 
-    model = load_model(model_path)
-    generated_text = generate_text(model, prompt, length)
-    print(generated_text)
-
-    # Example of generating a script
+    model = load_model('./model.h5')  # Update this path
     options = {
-        "type": "prompt",
-        "num": 3,
-        "prompts": [{"character": "MICHAEL", "line": "That's what she said."}]
+        "type": type,
+        "num": num_lines,
+        "prompts": prompts_list
     }
     script = generate_script(model, options)
     formatted_script = format_script(script)
-    print(formatted_script)
+    return formatted_script
+
+# Define the Gradio UI
+iface = gr.Interface(
+    fn=gradio_generate_script,
+    inputs=[
+        gr.Dropdown(["random", "prompt"], value="prompt", label="Type"),
+        gr.Number(value=3, label="Number of Lines"),
+        gr.Textbox(
+            placeholder='Enter JSON formatted prompts if "prompt" type is selected',
+            lines=2,
+            label="Prompts (for 'prompt' type)",
+            value='[{"character": "PAM", "line": "It’s going to be a challenge to fit everything in here."}, {"character": "MICHAEL", "line": "That\'s what she said."}]'
+        )
+    ],
+    outputs=gr.JSON(label="Formatted Script"),
+    title="Dunder Mifflin RNNfinity",
+    description="Generate new dialogues for The Office"
+)
+
+if __name__ == "__main__":
+    iface.launch()
