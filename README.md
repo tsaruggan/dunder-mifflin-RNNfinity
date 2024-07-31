@@ -1,4 +1,13 @@
-# Dunder Mifflin RNNfinity
+```yaml
+title: Dunder Mifflin RNNfinity
+emoji: 🥸
+colorFrom: blue
+colorTo: indigo
+sdk: gradio
+sdk_version: 4.39.0
+app_file: app.py
+pinned: true
+```
 
 **Dunder Mifflin RNNfinity** is a [recurrent neural network (RNN)](https://en.wikipedia.org/wiki/Recurrent_neural_network) designed to generate scripts for The Office. This project is one of my early experiments with natural language processing after finishing The Office and desperately wanting more episodes. The model was developed using TensorFlow and trained using the transcripts from every episode across all 9 seasons of the show — that's 74 hours of television! It can effectively generate new dialogues and similar sounding conversations between all your favourite characters. I deployed the model and created an interactive frontend using Next.js which can be accessed [**here**](https://dunder-mifflin-rnnfinity.vercel.app) :)
 
@@ -9,15 +18,3 @@
 - [Live Demo](https://dunder-mifflin-rnnfinity.vercel.app) 🔮
 
 ---
-
-### Hugging Face Spaces Configuration
-```yaml
-title: Dunder Mifflin RNNfinity
-emoji: 🔥
-colorFrom: blue
-colorTo: indigo
-sdk: gradio
-sdk_version: 4.39.0
-app_file: app.py
-pinned: false
-```
