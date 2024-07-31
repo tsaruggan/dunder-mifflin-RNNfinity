@@ -16,5 +16,3 @@ pinned: false
 - [Pretrained Model](https://github.com/tsaruggan/dunder-mifflin-RNNfinity/blob/master/model.h5) 🗣
 - [Model Architecture](https://user-images.githubusercontent.com/40643067/146662628-38fdc13a-1ee8-4faf-81c3-7f8955e81af9.png) 🕌
 - [Live Demo](https://dunder-mifflin-rnnfinity.vercel.app) 🔮
-
----
