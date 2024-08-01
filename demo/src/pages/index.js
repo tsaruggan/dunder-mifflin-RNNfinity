@@ -24,9 +24,8 @@ class App extends React.Component {
       body: JSON.stringify(options),
     });
 
-    const script = await result.json();
-
-    this.setState({ script: script.script, loading: false });
+    const data = await result.json();
+    this.setState({ script: data.script[0], loading: false });
   };
 
   render() {

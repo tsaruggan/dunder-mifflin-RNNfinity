@@ -9,7 +9,6 @@ function Script({ script }) {
                 script.map((line, index) => {
                     return <Line line={line} key={index} />
                 })
-
             }
         </div>
     )

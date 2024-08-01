@@ -105,10 +105,6 @@ class Options extends React.Component {
       {
         this.state.type === "prompt" && <><button id="add-prompt" onClick={this.addPrompt}>{`\u002b add`}</button><br /></>
       }
-
-
-
-
       <label htmlFor="num-lines">Select number of lines: </label>
       <Select className="num-lines-select" options={numLines} defaultValue={numLines[0]} isSearchable={false} onChange={this.onNumLinesChange} />
 
