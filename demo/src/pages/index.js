@@ -60,7 +60,12 @@ class App extends React.Component {
       // alert("Request timed out after 10 seconds due to limited resource constraints. Try again with a lesser input or check out the Hugging Face space directly.");
 
       if (confirm("Request timed out after 10 seconds due to limited resource constraints. Open the Hugging Face space directly?")) {
-        window.open("https://huggingface.co/spaces/tsaruggan/dunder-mifflin-RNNfinity", "_blank");
+        const url = "https://huggingface.co/spaces/tsaruggan/dunder-mifflin-RNNfinity";
+        const newTab = window.open(url, "_blank");
+
+        if (!newTab) {
+          window.location.href = url; // Fallback for mobile
+        }
       }
     }
   };  
