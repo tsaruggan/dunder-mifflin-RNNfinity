@@ -112,7 +112,6 @@ class Options extends React.Component {
 
       <button disabled={this.props.disabled} id="generate-button" onClick={() => this.props.callGenerate(this.state)}>Generate</button>
       <Loading loading={this.props.loading} />
-      <br />
     </div>);
   }
 
