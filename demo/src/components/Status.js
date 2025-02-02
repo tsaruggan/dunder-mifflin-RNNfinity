@@ -40,7 +40,7 @@ export default function Status({ status = 'sleeping' }) {
             <div style={{ fontWeight: 'bold'}}>
                 Status: <span style={{ color: statusColor, ...blinkingStyle }}>{statusText}</span>
             </div>
-            <div style={{ paddingTop: '8px', fontSize: '14px' }}>Sometimes longer requests take forever to load. It might help to directly check out the <a href='https://huggingface.co/spaces/tsaruggan/dunder-mifflin-RNNfinity'>Hugging Face space</a> 🤗</div>
+            <div style={{ paddingTop: '8px', fontSize: '14px' }}>You may experience downtime or requests timing out due to free tier resource limits. It might help to check out the <a href='https://huggingface.co/spaces/tsaruggan/dunder-mifflin-RNNfinity'>Hugging Face space</a> directly or clone the <a href='https://github.com/tsaruggan/dunder-mifflin-RNNfinity'>GitHub repository</a> and run the app locally.</div>
         </div>
     );
 }

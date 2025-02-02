@@ -18,7 +18,7 @@ class App extends React.Component {
 
   componentDidMount() {
     this.fetchStatus();
-    this.intervalId = setInterval(this.fetchStatus, 5000);
+    this.intervalId = setInterval(this.fetchStatus, 6000);
   }
 
   componentWillUnmount() {
@@ -40,18 +40,26 @@ class App extends React.Component {
 
   generate = async (options) => {
     this.setState({ loading: true });
-
-    const result = await fetch(`/api/generate`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(options),
-    });
-
-    const data = await result.json();
-    this.setState({ script: data.script[0], loading: false });
-  };
+  
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 15000);
+  
+    try {
+      const result = await fetch(`/api/generate`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(options),
+        signal: controller.signal,
+      });
+  
+      clearTimeout(timeoutId);
+      const data = await result.json();
+      this.setState({ script: data.script[0], loading: false });
+    } catch (error) {
+      this.setState({ loading: false });
+      alert("Request timed out after 10 seconds due to limited resource constraints. Try again or with a lesser input.");
+    }
+  };  
 
   render() {
     const socialThumbnailUrl = "https://img.buzzfeed.com/buzzfeed-static/static/2016-07/22/15/asset/buzzfeed-prod-fastlane01/sub-buzz-32165-1469216684-6.jpg";

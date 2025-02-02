@@ -138,6 +138,11 @@
     font-size: 14px;
   }
 
+  .statusContainer a {
+    color: white;
+    cursor: pointer;
+  }
+
 
 /* Media query for phone screens */
 @media (max-width: 600px) {
