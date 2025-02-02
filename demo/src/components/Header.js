@@ -10,6 +10,10 @@ function Header() {
                 <a href="https://github.com/tsaruggan/dunder-mifflin-RNNfinity" target="_blank" rel="noopener noreferrer">
                     [GitHub]
                 </a>
+                &nbsp;
+                <a href="https://huggingface.co/spaces/tsaruggan/dunder-mifflin-RNNfinity" target="_blank" rel="noopener noreferrer">
+                    [Hugging Face]
+                </a>
             </p>
 
         </div>

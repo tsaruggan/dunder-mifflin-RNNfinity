@@ -42,7 +42,7 @@ class App extends React.Component {
     this.setState({ loading: true });
   
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 15000);
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
   
     try {
       const result = await fetch(`/api/generate`, {
@@ -57,7 +57,11 @@ class App extends React.Component {
       this.setState({ script: data.script[0], loading: false });
     } catch (error) {
       this.setState({ loading: false });
-      alert("Request timed out after 10 seconds due to limited resource constraints. Try again or with a lesser input.");
+      // alert("Request timed out after 10 seconds due to limited resource constraints. Try again with a lesser input or check out the Hugging Face space directly.");
+
+      if (confirm("Request timed out after 10 seconds due to limited resource constraints. Open the Hugging Face space directly?")) {
+        window.open("https://huggingface.co/spaces/tsaruggan/dunder-mifflin-RNNfinity", "_blank");
+      }
     }
   };  
 
