@@ -3,15 +3,40 @@ import Head from "next/head";
 import Header from '../components/Header';
 import Options from '../components/Options';
 import Script from '../components/Script';
+import Status from '@/components/Status';
 
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       script: [],
-      loading: false
+      loading: false,
+      status: 'SLEEPING'
     };
+    this.intervalId = null;
   }
+
+  componentDidMount() {
+    this.fetchStatus();
+    this.intervalId = setInterval(this.fetchStatus, 5000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
+  }
+
+  fetchStatus = async () => {
+    try {
+      const response = await fetch('/api/status');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`); // Simplified error
+      }
+      const data = await response.json();
+      this.setState({ status: data.status });
+    } catch (error) {
+      console.error("Error fetching status:", error); // Just log, don't store
+    }
+  };
 
   generate = async (options) => {
     this.setState({ loading: true });
@@ -45,7 +70,8 @@ class App extends React.Component {
         </Head>
         <div className="App">
           <Header />
-          <Options callGenerate={this.generate} loading={this.state.loading} />
+          <Options callGenerate={this.generate} loading={this.state.loading} disabled={!(this.state.status === "RUNNING")} />
+          <Status status={this.state.status} />
           {
             this.state.script.length !== 0 && <Script script={this.state.script} />
           }

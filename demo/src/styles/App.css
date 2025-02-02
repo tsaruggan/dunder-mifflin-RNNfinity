@@ -1,12 +1,22 @@
 .App {
     display: flex;
     flex-direction: column;
-    margin: 25px;
+    /* margin: 25px; */
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 16px;
+    padding: 25px;
+    align-items: center;
+
   }
   
   #title {
     margin: 0;
+  }
+
+  .header {
+    width: 100%;
+    text-align: left;
+    max-width: 800px;
   }
   
   #description {
@@ -45,6 +55,15 @@
     background-color: #147bcd;
     background: linear-gradient(#51a9ee, #147bcd);
     color: white;
+  }
+
+  #generate-button:disabled {
+    background-color: #8e98a0;
+    background: linear-gradient(#aaceea6e, #99a9b672);
+    color: rgba(255, 255, 255, 0.549);
+    cursor: not-allowed;
+    outline: none;
+    border: 2px solid #b9c9d9;
   }
   
   .num-lines-select {
@@ -105,18 +124,34 @@
     margin-left: 15px;
   }
 
+  .statusContainer {
+    background-color: #6B7FD7;
+    width: 100%;
+    max-width: 800px;
+    /* margin-top: 20px; */
+    padding-left: 25px;
+    padding-right: 25px;
+    /* padding-top: 12.5px; */
+    /* padding-bottom: 12.5px; */
+    color: white;
+    font-size: 14px;
+  }
+
 /* Media query for phone screens */
 @media (max-width: 600px) {
   .App {
     margin: 5px; /* Further reduced margin for very small screens */
     align-items: center;
-    padding: 10px; /* Smaller padding for phone-friendly design */
+    padding: 12px; /* Smaller padding for phone-friendly design */
+    display: flex;
+    flex-direction: column;
+    padding: 25px;
   }
 
   .options,
   .script {
     
-    width: 90%;
+    width: 100%;
   }
 
   #generate-button {
@@ -132,7 +167,7 @@
     font-size: 18px; /* Reduced font size for phone screens */
   }
 
-  #description {
-    font-size: 12px; /* Reduced font size for phone screens */
-  }
+  /* #description {
+    font-size: 14px;
+  } */
 }

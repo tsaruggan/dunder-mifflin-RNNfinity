@@ -5,21 +5,16 @@ async function generateScript(options) {
 
   const { type, num, prompts } = options;
 
-  const result = await client.predict("/predict", { 		
-    type: type, 		
-    num_lines: num, 		
-    prompts: JSON.stringify(prompts), 
+  const result = await client.predict("/predict", {
+    type: type,
+    num_lines: num,
+    prompts: JSON.stringify(prompts),
   });
   return result.data;
 }
 
 export default async (req, res) => {
-  if (req.method === 'POST') {
-    const options = req.body;
-    const script = await generateScript(options);
-    res.status(200).json({ script }); // Return the generated script
-  } else {
-    // If it's not a POST request, respond with a 405 Method Not Allowed
-    res.status(405).json({ error: 'Method Not Allowed' });
-  }
+  const options = req.body;
+  const script = await generateScript(options);
+  res.status(200).json({ script });
 };
