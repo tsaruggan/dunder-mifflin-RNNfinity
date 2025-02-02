@@ -37,9 +37,10 @@ export default function Status({ status = 'sleeping' }) {
 
     return (
         <div className='statusContainer'>
-            <p style={{ fontWeight: 'bold'}} >
-                Status: <span style={{color: statusColor, ...blinkingStyle }}>{statusText}</span>
-            </p>
+            <div style={{ fontWeight: 'bold'}}>
+                Status: <span style={{ color: statusColor, ...blinkingStyle }}>{statusText}</span>
+            </div>
+            <div style={{ paddingTop: '8px', fontSize: '14px' }}>Sometimes longer requests take forever to load. It might help to directly check out the <a href='https://huggingface.co/spaces/tsaruggan/dunder-mifflin-RNNfinity'>HuggingFace space</a> 🤗</div>
         </div>
     );
 }

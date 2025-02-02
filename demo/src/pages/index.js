@@ -29,12 +29,12 @@ class App extends React.Component {
     try {
       const response = await fetch('/api/status');
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`); // Simplified error
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
       this.setState({ status: data.status });
     } catch (error) {
-      console.error("Error fetching status:", error); // Just log, don't store
+      console.error("Error fetching status:", error);
     }
   };
 

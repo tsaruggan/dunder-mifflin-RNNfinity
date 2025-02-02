@@ -131,11 +131,13 @@
     /* margin-top: 20px; */
     padding-left: 25px;
     padding-right: 25px;
-    /* padding-top: 12.5px; */
-    /* padding-bottom: 12.5px; */
+    /* padding: 25px; */
+    padding-top: 12.5px;
+    padding-bottom: 12.5px;
     color: white;
     font-size: 14px;
   }
+
 
 /* Media query for phone screens */
 @media (max-width: 600px) {
