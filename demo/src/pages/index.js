@@ -87,7 +87,7 @@ class App extends React.Component {
         </Head>
         <div className="App">
           <Header />
-          <Options callGenerate={this.generate} loading={this.state.loading} disabled={!(this.state.status === "RUNNING")} />
+          <Options callGenerate={this.generate} loading={this.state.loading} disabled={!(this.state.status === "RUNNING") || this.state.loading} />
           <Status status={this.state.status} />
           {
             this.state.script.length !== 0 && <Script script={this.state.script} />
